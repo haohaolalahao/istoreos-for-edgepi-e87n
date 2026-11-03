@@ -27,7 +27,7 @@
 - 双 2.5G 网口，VLAN、PPPoE、IPv6；硬件 NAT 走 mtk_eth_soc 的 PPE 加 nft flow offload
 - iStore 商店、网络向导、OTA 预装
 - 屏幕 4 个内置页面，可导入自定义主题；中文字体随固件装在 `/usr/share/e87n/font.ttf`
-- 风扇按温度曲线调 PWM，曲线在 LuCI 里拖
+- 风扇按温度曲线调 PWM，曲线在 LuCI 里编辑
 
 屏幕、主题包格式和指标接口见 `docs/LVGL-CUSTOM-IMPORT.md`。
 
@@ -166,3 +166,10 @@ docs/                                     主题与指标接口文档、SDK、�
 tools/acceptance.sh                       硬件和功能自检
 tools/check-dts.sh                        板级 DTS 校验
 ```
+
+## 杂谈
+
+这个路由器大概商家停产了，在商家那边已经下架了。
+此固件使用了AI辅助开发（其实原厂固件也是）。
+这个固件是把所有路由器+轻NAS所需的功能都编进去了的，所以包体可能较大，如果需要极简可以去刷原厂固件，那是基于ImmortalWrt开发的。
+此固件即今日起应该不会再频繁更新了，如果有问题请提Issue，自行解决了直接PR也行。
