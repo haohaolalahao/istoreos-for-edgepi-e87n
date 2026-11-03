@@ -114,10 +114,9 @@ grep -E 'PACKAGE_(luci-app-store|luci-app-quickstart|quickstart)=y' .config
 
 Release 里有两个文件：`squashfs-sysupgrade.bin` 是整机升级包，
 `edgepi_e87n-kernel-6.12.94.fit` 是单独的内核，另有 `SHA256SUMS`。
-国内下载慢时在前面加镜像前缀。
 
 ```bash
-curl -LO https://gh-proxy.com/https://github.com/micmtop/istoreos-for-edgepi-e87n/releases/download/<tag>/istoreos-mediatek-filogic-edgepi_e87n-squashfs-sysupgrade.bin
+curl -LO https://github.com/micmtop/istoreos-for-edgepi-e87n/releases/download/<tag>/istoreos-mediatek-filogic-edgepi_e87n-squashfs-sysupgrade.bin
 sysupgrade istoreos-mediatek-filogic-edgepi_e87n-squashfs-sysupgrade.bin
 ```
 
@@ -134,7 +133,7 @@ dd if=/dev/mmcblk0p4 bs=4096 count=$CNT 2>/dev/null | head -c $SZ | sha256sum
 sha256sum $FIT                           # 两个值必须一致
 ```
 
-**不要写 p3。** eMMC 引导区的 BL2 和 p3 里的 FIP、BL31 必须成对，
+**不要写 p3（如果不想串口救砖的话）。** eMMC 引导区的 BL2 和 p3 里的 FIP、BL31 必须成对，
 换掉一半会卡在 `BL2: Booting BL31`，只能靠串口 RAM boot 恢复。
 写 eMMC 只用分区设备 `/dev/mmcblk0pN`，不要整盘加 seek 偏移。
 
@@ -146,8 +145,10 @@ sha256sum $FIT                           # 两个值必须一致
 sh tools/acceptance.sh
 ```
 
-检查 overlay、eMMC 分区、两个 PHY 的绑定、HNAT 和 flow offload、风扇是否跟随曲线、
-LED、USB、两个 PCIe 控制器、屏幕、商店和网络向导。当前版本 45 项全过。
+~~检查 overlay、eMMC 分区、两个 PHY 的绑定、HNAT 和 flow offload、风扇是否跟随曲线、
+LED、USB、两个 PCIe 控制器、屏幕、商店和网络向导。~~
+
+其实没必要，发布前我就测试好了的，除非是自行改动了固件。
 
 ## 目录
 
@@ -170,6 +171,9 @@ tools/check-dts.sh                        板级 DTS 校验
 ## 杂谈
 
 这个路由器大概商家停产了，在商家那边已经下架了。
+
 此固件使用了AI辅助开发（其实原厂固件也是）。
+
 这个固件是把所有路由器+轻NAS所需的功能都编进去了的，所以包体可能较大，如果需要极简可以去刷原厂固件，那是基于ImmortalWrt开发的。
+
 此固件即今日起应该不会再频繁更新了，如果有问题请提Issue，自行解决了直接PR也行。
