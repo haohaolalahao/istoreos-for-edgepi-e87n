@@ -85,6 +85,13 @@ jobs:
       - name: Apply E87N + MT7987 support
         run: bash apply.sh
 
+      - name: Install first-boot defaults (LAN 192.168.8.1)
+        run: |
+          install -D -m 0755 e87n-defaults/99-e87n-lan \
+            istoreos/package/base-files/files/etc/uci-defaults/99-e87n-lan
+          echo "=== injected ==="
+          ls -l istoreos/package/base-files/files/etc/uci-defaults/99-e87n-lan
+
       - name: Configure target (E87N + honk)
         run: |
           cd istoreos
@@ -154,6 +161,15 @@ jobs:
           grep -q '^CONFIG_DEBUG_INFO_BTF=y' "$KCFG" \
             || { echo "FATAL: 内核 .config 没有 CONFIG_DEBUG_INFO_BTF=y"; exit 1; }
           echo "BTF OK"
+
+          echo "=== 首启默认值是否进了 rootfs ==="
+          RFS=$(ls -d build_dir/target-*/root-* 2>/dev/null | head -1)
+          if [ -n "$RFS" ] && [ -f "$RFS/etc/uci-defaults/99-e87n-lan" ]; then
+            echo "LAN defaults OK: $RFS/etc/uci-defaults/99-e87n-lan"
+          else
+            echo "FATAL: 99-e87n-lan 没进 rootfs（检查 base-files 注入步骤）"
+            exit 1
+          fi
 
       - name: Collect kmod .apk (same kernel hash as the firmware)
         if: always()
