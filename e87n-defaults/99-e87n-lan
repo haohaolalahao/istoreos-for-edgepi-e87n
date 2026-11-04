@@ -1,0 +1,33 @@
+#!/bin/sh
+# ============================================================
+# 首次启动：把 LAN 配置对齐家里现有主路由（192.168.8.1）
+#   由 e87n-honk 构建注入到 base-files，首启执行一次后自动删除
+#   只改 LAN/DHCP/IPv6，不动 WAN（PPPoE 账号留在 LuCI 里手填）
+# ============================================================
+uci -q batch <<'UCI'
+set network.lan.ipaddr='192.168.8.1'
+set network.lan.netmask='255.255.255.0'
+set network.lan.ip6assign='60'
+set network.lan.ip6hint='0000'
+set network.lan.ip6ifaceid='::1'
+set dhcp.lan.start='100'
+set dhcp.lan.limit='150'
+set dhcp.lan.leasetime='12h'
+set dhcp.lan.dhcpv4='server'
+set dhcp.lan.dhcpv6='server'
+set dhcp.lan.ra='server'
+set dhcp.lan.ra_slaac='1'
+set dhcp.lan.force='1'
+set dhcp.lan.ndp='disabled'
+set dhcp.lan.ra_management='0'
+set dhcp.lan.ra_flags='other-config'
+set dhcp.lan.ra_default='1'
+set dhcp.@dnsmasq[0].domain='lan'
+set dhcp.@dnsmasq[0].local='/lan/'
+set dhcp.@dnsmasq[0].authoritative='1'
+commit network
+commit dhcp
+UCI
+
+logger -t e87n-defaults "LAN -> 192.168.8.1/24, DHCP 100-249, IPv6 RA on"
+exit 0
