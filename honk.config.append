@@ -43,3 +43,11 @@ CONFIG_PACKAGE_luci-app-dockerman=y
 # 按设备流量统计
 CONFIG_PACKAGE_luci-app-nlbwmon=y
 CONFIG_PACKAGE_nlbwmon=y
+
+# ---- 7. DNS 过滤 + 远程组网（与 honk 共存，靠 honk 路由规则解除冲突）----
+# AdGuardHome：DNS 广告过滤（honk 侧加 dport(53) -> direct 把 DNS 让出来）
+CONFIG_PACKAGE_adguardhome=y
+CONFIG_PACKAGE_luci-app-adguardhome=y
+# Tailscale：免公网 IP 组网（honk 侧排除 100.64.0.0/10 + pname(tailscaled)）
+CONFIG_PACKAGE_tailscale=y
+CONFIG_PACKAGE_luci-app-tailscale-community=y
