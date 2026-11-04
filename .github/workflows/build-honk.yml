@@ -120,7 +120,9 @@ jobs:
                    CONFIG_PACKAGE_kmod-nft-core=y \
                    CONFIG_PACKAGE_kmod-nf-conntrack=y \
                    CONFIG_PACKAGE_luci-theme-vantage=y \
-                   CONFIG_PACKAGE_luci-app-vantage=y ; do
+                   CONFIG_PACKAGE_luci-app-vantage=y \
+                   CONFIG_PACKAGE_luci-app-dockerman=y \
+                   CONFIG_PACKAGE_luci-app-nlbwmon=y ; do
             if grep -qx -- "$s" .config; then echo "OK   $s"; else echo "MISS $s"; miss=1; fi
           done
           grep -q '^# CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set' .config \
