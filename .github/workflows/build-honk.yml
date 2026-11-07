@@ -85,12 +85,17 @@ jobs:
       - name: Apply E87N + MT7987 support
         run: bash apply.sh
 
-      - name: Install first-boot defaults (LAN 192.168.8.1)
+      - name: Install first-boot defaults (LAN + honk)
         run: |
           install -D -m 0755 e87n-defaults/99-e87n-lan \
             istoreos/package/base-files/files/etc/uci-defaults/99-e87n-lan
+          install -D -m 0755 e87n-defaults/99-e87n-honk \
+            istoreos/package/base-files/files/etc/uci-defaults/99-e87n-honk
+          install -D -m 0644 e87n-defaults/honk-config.dae \
+            istoreos/package/base-files/files/etc/honk/config.dae
           echo "=== injected ==="
-          ls -l istoreos/package/base-files/files/etc/uci-defaults/99-e87n-lan
+          ls -l istoreos/package/base-files/files/etc/uci-defaults/
+          ls -l istoreos/package/base-files/files/etc/honk/config.dae
 
       - name: Configure target (E87N + honk)
         run: |
@@ -176,6 +181,22 @@ jobs:
             echo "FATAL: 99-e87n-lan 没进 rootfs（检查 base-files 注入步骤）"
             exit 1
           fi
+          for f in etc/uci-defaults/99-e87n-honk etc/honk/config.dae; do
+            [ -f "$RFS/$f" ] && echo "OK  $f" || { echo "FATAL: $f 没进 rootfs"; exit 1; }
+          done
+
+          echo "=== honk 版本锁定校验 ==="
+          HV=$(grep -E '^honk - ' "$RFS/usr/lib/opkg/status" 2>/dev/null | head -1 | awk '{print $3}')
+          if [ -z "$HV" ]; then
+            HV=$(awk '/^Package: honk$/,/^$/' "$RFS/usr/lib/opkg/status" 2>/dev/null | awk '/^Version:/{print $2; exit}')
+          fi
+          MNF=$(ls bin/targets/mediatek/filogic/*.manifest 2>/dev/null | head -1)
+          [ -n "$MNF" ] && HV=$(grep -E '^honk ' "$MNF" | awk '{print $3}' | head -1)
+          echo "built honk: ${HV:-unknown}"
+          case "$HV" in
+            0.1.0_beta5*|0.1.0_beta.5*) echo "honk version OK (pinned beta5)";;
+            *) echo "FATAL: honk 版本不在锁定范围（期望 0.1.0_beta5），当前=${HV:-unknown}"; exit 1;;
+          esac
 
       - name: Collect kmod .apk (same kernel hash as the firmware)
         if: always()
