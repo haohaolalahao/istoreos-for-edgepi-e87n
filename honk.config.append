@@ -51,3 +51,7 @@ CONFIG_PACKAGE_luci-app-adguardhome=y
 # Tailscale：免公网 IP 组网（honk 侧排除 100.64.0.0/10 + pname(tailscaled)）
 CONFIG_PACKAGE_tailscale=y
 CONFIG_PACKAGE_luci-app-tailscale-community=y
+
+# ---- 8. honk 本体 + LuCI 入口（显式启用，配合 workflow 的版本 gate 锁定 beta5）----
+CONFIG_PACKAGE_honk=y
+CONFIG_PACKAGE_luci-app-honk=y
