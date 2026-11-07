@@ -1,0 +1,36 @@
+#!/bin/sh
+# ============================================================
+# 首次启动：honk / 网络默认值（把 2026-11 排查到的问题固化）
+#   1) DHCP 服务器必须开启（历史 bug：dhcp.lan.ignore=1 → 客户端拿 169.254）
+#   2) 强制 LAN 客户端 DNS 走本机，防止 DoH/外部 DNS 解析到海外 CDN IP
+#   3) honk 数据目录 + 开机自启（wan_interface: auto 会等默认路由出现）
+#   配置文件 /etc/honk/config.dae 由镜像预置（e87n-defaults/honk-config.dae）
+# ============================================================
+
+# ---- 1. DHCP 服务器 ----
+uci -q set dhcp.lan.ignore='0'
+uci -q set dhcp.lan.dhcpv4='server'
+uci -q set dhcp.lan.start='100'
+uci -q set dhcp.lan.limit='150'
+uci -q commit dhcp
+
+# ---- 2. DNS 强制劫持到本机（客户端无法绕过）----
+if ! uci -q get firewall.force_dns >/dev/null 2>&1; then
+	uci -q add firewall redirect >/dev/null
+	uci -q set firewall.@redirect[-1].name='Force-DNS-to-router'
+	uci -q set firewall.@redirect[-1].src='lan'
+	uci -q set firewall.@redirect[-1].src_dport='53'
+	uci -q set firewall.@redirect[-1].dest_port='53'
+	uci -q set firewall.@redirect[-1].proto='tcp udp'
+	uci -q set firewall.@redirect[-1].target='DNAT'
+	uci -q commit firewall
+fi
+
+# ---- 3. honk 运行目录 ----
+mkdir -p /etc/honk/data
+
+# ---- 4. 开机自启 ----
+[ -x /etc/init.d/honk ] && /etc/init.d/honk enable
+
+logger -t e87n-defaults "honk defaults: DHCP on, DNS forced to router, service enabled"
+exit 0
