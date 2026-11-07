@@ -1,0 +1,213 @@
+# 订阅支持V2ray/URL、mihomo等格式，多机场按照示例复制模块改机场名字即可。
+subscription {
+    # === 在此填入你自己的订阅 ===
+    # 方式 A：直接写订阅 URL
+    #   lx: 'https://你的机场/api/v1/client/subscribe?token=xxx' {
+    #       ua: 'clash.meta/1.19.30'
+    #       interval: 86400s
+    #       cache: false
+    #       route: direct
+    #   }
+    # 方式 B：把订阅内容存成本地文件（放到 /www 下），指向 127.0.0.1
+    lx: 'http://127.0.0.1/lx.yaml' {
+        ua: 'clash.meta/1.19.30'
+        interval: 0s
+        cache: false
+        route: direct
+    }
+    tj: 'http://127.0.0.1/tj.txt' {
+        ua: 'clash.meta/1.19.30'
+        interval: 0s
+        cache: false
+        route: direct
+    }
+}
+
+# node {
+#     my_vps: 'hysteria2://密码@vps.example.com:443/?sni=vps.example.com'
+# }
+
+# policy 可选 select（面板手动选，默认）/ min_moving_avg（延迟最低）/ fallback（按顺序取第一个存活）/ loadbalance（轮询）/ score（按实际连接质量评分）；final：所选节点不可用时改走的组
+group {
+    Proxy {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    AI {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    YouTube {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Google {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Github {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Telegram {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    TikTok {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Netflix {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Wallet {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Steam {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Microsoft {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    OneDrive {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Apple {
+        filter: name(regex: '🇭🇰|HK|hk|香港|港|HongKong|🇯🇵|JP|jp|日本|Japan|🇸🇬|SG|sg|新加坡|🇺🇸|US|us|美国|美|United States') && !name(regex: '排除')
+        final: Final
+        interrupt_connections: true
+    }
+    Emby {
+        filter: subtag('tj') && name(regex: '香港|HK|日本|JP|新加坡|SG|美国|US|🇭🇰|🇯🇵|🇸🇬|🇺🇸') && !name(regex: '剩余|流量|到期')
+        filter: subtag('lx') && name(regex: '香港|HK|日本|JP|新加坡|SG|美国|US|🇭🇰|🇯🇵|🇸🇬|🇺🇸') && !name(regex: '剩余|流量|到期')
+        policy: selector
+        final: Final
+        interrupt_connections: true
+    }
+    Final {
+        filter: !name(regex: '官网|剩余|流量|套餐|免费|订阅|到期时间|直连|Expire Date|Traffic|ExpireDate')
+        policy: score
+    }
+}
+
+dns {
+    upstream {
+        remote: 'https://8.8.8.8/dns-query'
+        local: 'https://223.5.5.5/dns-query'
+    }
+    routing {
+        request {
+            qtype(https, svcb) -> reject
+            qtype(aaaa) -> reject
+            qname(suffix: googleapis.cn, suffix: xn--ngstr-lra8j.com) -> remote
+            qname(geosite: cn, geosite: microsoft@cn, geosite: apple@cn, geosite: private) -> local
+            qname(geosite: geolocation-!cn) -> remote
+            fallback: remote
+        }
+        response {
+            # remote 解析出国内 IP 时改用 local 重查，拿到就近 CDN
+            upstream(remote) && ip(geoip: cn) -> local
+            fallback: accept
+        }
+    }
+}
+
+routing {
+    dip(geoip: private, geoip: cn) && !dport(53, 853) -> direct(must)
+    dport(853) -> block
+    l4proto(udp) && dport(443) -> block
+    domain(suffix: googleapis.cn, suffix: xn--ngstr-lra8j.com) -> Google
+    domain(suffix: withgoogle.com, suffix: notebooklm.google, geosite: category-ai-!cn) -> AI
+    # ---- Emby ----
+    domain(suffix: 'proxy2emby.qtecrab.com') -> Emby
+    domain(suffix: 'uhdnow.com') -> Emby
+    domain(suffix: 'uhdgo.com') -> Emby
+    domain(keyword: 'emby') -> Emby
+    domain(suffix: 'emby.media') -> Emby
+    domain(suffix: 'mb3admin.com') -> Emby
+    domain(geosite: youtube) -> YouTube
+    domain(geosite: google) -> Google
+    domain(geosite: github) -> Github
+    domain(geosite: onedrive) -> OneDrive
+    domain(geosite: microsoft@cn) -> direct
+    domain(geosite: microsoft) -> Microsoft
+    domain(geosite: apple@cn) -> direct
+    domain(geosite: apple) -> Apple
+    domain(geosite: telegram) -> Telegram
+    domain(geosite: tiktok) -> TikTok
+    domain(geosite: netflix) -> Netflix
+    domain(geosite: paypal, geosite: binance, geosite: okx, geosite: category-cryptocurrency) -> Wallet
+    domain(geosite: steam@cn) -> direct
+    domain(geosite: steam) -> Steam
+    domain(geosite: geolocation-!cn) -> Proxy
+    dip(geoip: telegram) -> Telegram
+    fallback: Final
+}
+
+global {
+    lan_interface: br-lan # E87N: eth0 桥接为 br-lan
+    wan_interface: auto
+    data_dir: '/etc/honk/data'  # 沿用已建好的状态库（保留 admin 密码）
+    dial_mode: domain
+    tls_implementation: utls
+    bootstrap_resolver: '119.29.29.29:53'
+    log_level: info
+    check_interval: 30s
+    check_tolerance: 50ms
+}
+
+assets {
+    route: direct
+    ui {
+        route: Proxy
+    }
+    subscription {
+        ua: 'clash.meta/1.19.30'
+        interval: 0s
+        cache: false
+    }
+    geodata {
+        geosite: 'https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
+        geoip: 'https://gh-proxy.com/https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geoip.dat'
+        route: direct
+    }
+}
+
+# doona 面板：http://路由器IP:9090/ui/（首次打开创建管理员）
+# zashboard：http://路由器IP:9091/ui/（secret 见 clash_api.secret）
+experimental {
+    clash_api {
+        external_controller: '0.0.0.0:9091'
+        external_ui: 'ui'
+        secret: 'honk230edge'
+        default_mode: 'Rule'
+    }
+    native_api {
+        enabled: true
+        listen: '0.0.0.0:9090'
+        password_auth: true
+        config_write: true
+        ui: embedded
+    }
+    cache_file {
+        enabled: true
+        store_dns: true
+    }
+}
